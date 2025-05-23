@@ -9,7 +9,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        string samplesFolder = "../samples";
+        string samplesFolder = "../../../../samples";
         string[] xmlFiles = Directory.GetFiles(samplesFolder, "*.xml");
 
         foreach (var xmlPath in xmlFiles)

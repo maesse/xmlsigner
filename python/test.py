@@ -114,7 +114,7 @@ for input_file in input_files:
     else:
         print("Xades digest match 🔒✔️")
 
-    print(xadesNode_c14n)
+    # print(xadesNode_c14n)
 
     #
     # How the main document digest is computed:

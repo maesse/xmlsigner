@@ -1,5 +1,5 @@
-java/target
-java2/xmlsignature/target
+java/xmlsignature/target
 csharp/bin
 csharp/obj
 .venv
+.vscode
