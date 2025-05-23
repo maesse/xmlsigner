@@ -1,0 +1,15 @@
+Generate the private key and self-signed certificate
+
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout myinvois.key \
+  -out myinvois.crt \
+  -config myinvois_openssl.cnf
+
+Convert the key and certificate to a PKCS#12 file for Java keystore import
+
+openssl pkcs12 -export \
+  -in myinvois.crt \
+  -inkey myinvois.key \
+  -out myinvois.p12 \
+  -name myinvois \
+  -passout pass:secret

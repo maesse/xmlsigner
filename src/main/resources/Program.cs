@@ -1,0 +1,59 @@
+using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+using System.Xml;
+using System.Xml.XPath;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        string xmlPath = "1.1-Credit-Note-Sample.xml"; // Change this to your input file
+        string xpath = "//*[@Id='id-xades-signed-props']"; // Adjust XPath if needed
+
+        // Load the XML document
+        var doc = new XmlDocument();
+        doc.PreserveWhitespace = false; // Removes indentation/extra spaces
+        doc.Load(xmlPath);
+
+        // Set up namespace manager (required for XPath with prefixes)
+        var nsmgr = new XmlNamespaceManager(doc.NameTable);
+        nsmgr.AddNamespace("xades", "http://uri.etsi.org/01903/v1.3.2#");
+
+        // Select the node
+        var node = doc.SelectSingleNode(xpath, nsmgr);
+        if (node == null)
+        {
+            Console.WriteLine("Node not found.");
+            return;
+        }
+
+        // Linearize the node: remove whitespace, compact output
+        var settings = new XmlWriterSettings
+        {
+            OmitXmlDeclaration = true,
+            Indent = false,
+            NewLineHandling = NewLineHandling.None
+        };
+
+        string serialized;
+        using (var sw = new StringWriter())
+        using (var xw = XmlWriter.Create(sw, settings))
+        {
+            node.WriteTo(xw);
+            xw.Flush();
+            serialized = sw.ToString();
+        }
+
+        // Hash the UTF-8 bytes of the serialized XML
+        byte[] data = Encoding.UTF8.GetBytes(serialized);
+        byte[] hash = SHA256.Create().ComputeHash(data);
+        string base64Digest = Convert.ToBase64String(hash);
+
+        Console.WriteLine("Serialized XML:");
+        Console.WriteLine(serialized);
+        Console.WriteLine("\nSHA256 Digest (base64):");
+        Console.WriteLine(base64Digest);
+    }
+}

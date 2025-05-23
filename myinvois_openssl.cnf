@@ -1,0 +1,27 @@
+[ req ]
+default_bits       = 2048
+prompt             = no
+default_md         = sha256
+distinguished_name = dn
+x509_extensions    = v3_ext
+
+[ dn ]
+C  = MY
+ST = Kuala Lumpur
+L  = Kuala Lumpur
+O  = YourCompanyName
+OU = IT Department
+CN = yourdomain.com
+# This is the Organization Identifier OID 2.5.4.97
+organizationIdentifier = 1234567890
+emailAddress = admin@yourdomain.com
+
+[ v3_ext ]
+# Key usage as per MyInvois profile
+keyUsage = critical, digitalSignature, nonRepudiation
+# Enhanced key usage: Document Signing OID 1.3.6.1.4.1.311.10.3.12
+extendedKeyUsage = 1.3.6.1.4.1.311.10.3.12
+# Subject Key Identifier
+subjectKeyIdentifier = hash
+# Basic constraints (not a CA)
+basicConstraints = CA:FALSE
