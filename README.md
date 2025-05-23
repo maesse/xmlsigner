@@ -39,11 +39,16 @@ This is a personal project to explore, verify, and sign digital signatures used 
 ## ⚡ Quirks & Surprises
 
 - Canonicalization and whitespace handling are critical -— minor differences break signature validation.
-- The order of XML elements and attributes must match exactly as in the sample signatures. (Unverified how strict the API with this)
-- Digest calculation for xades:SignedProperties is especially sensitive as it doesn't follow normal canonicalization procedures, instead relying on internal Microsoft XML serialization implementation.
 - The way the LHDN made the implementation means that essentially no existing tool will correctly validate a signed XML nor will it be able to create a validly signed XML.
-- The signature is calculated not on the full SignedInfo tag data but only on the hash of the document (excluding signature tags), meaning that the SignedProperties could potentially be changed while allowing for the document to still be validated.
 - The MS XML handling was not at all obvious, but the use of Powershell and .net libraries in the [JSON documentation](https://sdk.myinvois.hasil.gov.my/files/Digital_Signature_User_Guide.pdf) gave a clue.
+- Digest calculation for `xades:SignedProperties` is especially sensitive as it doesn't follow normal canonicalization procedures, instead relying on internal Microsoft XML serialization implementation. Verify that your input to the sha256 function satisfies these conditions:
+  - Self-closing tags are used where applicable (It's only `<ds:DigestMethod>`), which means you can't use canonicalization, or alternatively you can patch up `ds:DigestMethod` with a string.replace. There _must_ be a whitespace before the self-closing tag: ` />`
+  - XML must me minified (removing extra whitespace and newlines).
+  - namespace attribute (`xmlns:xades="http://uri.etsi.org/01903/v1.3.2#"`) must be present on `xades:SignedProperties`, and it must be the last attribute in the tag.
+  - namespace attribute (`xmlns:ds="http://www.w3.org/2000/09/xmldsig#"`) must be present on all `ds:` tags, and it must be the last attribute in the tag.
+  - look at `output/cs-test-output.txt` for an example
+- Generating the document digest source: The XML needs to be minified as well (extra whitespace and line breaks should be removed)
+- The signature value is not calculated after the XAdES/XMLDSIG standard, which would be `privatekey.sign(c14n(ds:SignedInfo))`. Instead its: `privateKey.sign(documentDigestSource)`.
 
 ---
 
