@@ -40,7 +40,7 @@ Clone the repository and run:
 ```bash
 cd python
 pip install -r requirements.txt
-python verify_digest.py
+python test.py
 ```
 
 ```bash
