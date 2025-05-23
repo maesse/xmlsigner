@@ -1,0 +1,98 @@
+Xades digest expected: qxnc1+/sacTPBK4Y7Ah3Ob5qtAWMMpKbI4fP4GTNkfY=
+Xades digest computed: DWe9qk1f26yLNF3pFI8Q7R3loWjwrTalCBEPVSeqtIM=
+Xades digest mismatch 🔒❌
+b'<xades:SignedProperties xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Id="id-xades-signed-props"><xades:SignedSignatureProperties><xades:SigningTime>2024-07-23T18:01:59Z</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></ds:DigestMethod><ds:DigestValue>KKBSTyiPKGkGl1AFqcPziKCEIDYGtnYUTQN4ukO7G40=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>CN=Trial LHDNM Sub CA V1, OU=Terms of use at http://www.posdigicert.com.my, O=LHDNM, C=MY</ds:X509IssuerName><ds:X509SerialNumber>162880276254639189035871514749820882117</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate></xades:SignedSignatureProperties></xades:SignedProperties>'      
+Expected document digest: 7pjpHDcaCFYqYT8FjfRhWSzLG8zZcCFDVBF+EpL0JnI=
+Computed document digest: 7pjpHDcaCFYqYT8FjfRhWSzLG8zZcCFDVBF+EpL0JnI=
+Document digest match 📄✔️
+✅ Signature is VALID
+--------------------------------------------------
+Parsing XML file: C:\Users\madsl\OneDrive\Documents\xmlsigner\src\main\resources\1.1-Debit-Note-Sample.xml
+Xades digest expected: 4TNE9PCubj2fKf6ecJy7vmS0ziovQOO9/B+njXkwTVc=
+Xades digest computed: UE6o2WdYzJrfyJ5ejciOoh1Ed6evY88XXUbEbDkrR6w=
+Xades digest mismatch 🔒❌
+b'<xades:SignedProperties xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Id="id-xades-signed-props"><xades:SignedSignatureProperties><xades:SigningTime>2024-07-23T18:07:17Z</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></ds:DigestMethod><ds:DigestValue>KKBSTyiPKGkGl1AFqcPziKCEIDYGtnYUTQN4ukO7G40=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>CN=Trial LHDNM Sub CA V1, OU=Terms of use at http://www.posdigicert.com.my, O=LHDNM, C=MY</ds:X509IssuerName><ds:X509SerialNumber>162880276254639189035871514749820882117</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate></xades:SignedSignatureProperties></xades:SignedProperties>'      
+Expected document digest: 24VikBk+k+t81XGe1rg2rYaZY4hjE/O4aT8TmnNPSG0=
+Computed document digest: 24VikBk+k+t81XGe1rg2rYaZY4hjE/O4aT8TmnNPSG0=
+Document digest match 📄✔️
+✅ Signature is VALID
+--------------------------------------------------
+Parsing XML file: C:\Users\madsl\OneDrive\Documents\xmlsigner\src\main\resources\1.1-Invoice-Consolidated-Sample.xml
+Xades digest expected: 7by3jG+7HvF0vadhVAVb0vyG3w+C5XTmDU+rsLramE4=
+Xades digest computed: EE3kjGzn/MpiagZiH0HgXhw+8El8Jtr4fdbEAvR5u68=
+Xades digest mismatch 🔒❌
+b'<xades:SignedProperties xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Id="id-xades-signed-props"><xades:SignedSignatureProperties><xades:SigningTime>2025-02-05T07:43:54Z</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></ds:DigestMethod><ds:DigestValue>KKBSTyiPKGkGl1AFqcPziKCEIDYGtnYUTQN4ukO7G40=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>CN=Trial LHDNM Sub CA V1, OU=Terms of use at http://www.posdigicert.com.my, O=LHDNM, C=MY</ds:X509IssuerName><ds:X509SerialNumber>162880276254639189035871514749820882117</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate></xades:SignedSignatureProperties></xades:SignedProperties>'      
+Expected document digest: HH587qZLJZ2WsF++IMh7Uhh4YZEraJEoXSrsjDHhDXM=
+Computed document digest: /1A2VKtuByKRIUDBnExfDde8XjT9J0y8UItdor/LVGI=
+Document digest mismatch 📄❌
+❌ Signature is INVALID:
+--------------------------------------------------
+Parsing XML file: C:\Users\madsl\OneDrive\Documents\xmlsigner\src\main\resources\1.1-Invoice-ForeignCurrency-Sample.xml
+Xades digest expected: m3aJJCaU57BeUOENLFdEel/JGKbm/cLLaeoMfyO8hAM=
+Xades digest computed: FCtA3xeC92VvUpPzLkB5Xf3xwLy/nlr3laWKMwKTsyc=
+Xades digest mismatch 🔒❌
+b'<xades:SignedProperties xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Id="id-xades-signed-props"><xades:SignedSignatureProperties><xades:SigningTime>2024-07-23T17:06:09Z</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></ds:DigestMethod><ds:DigestValue>KKBSTyiPKGkGl1AFqcPziKCEIDYGtnYUTQN4ukO7G40=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>CN=Trial LHDNM Sub CA V1, OU=Terms of use at http://www.posdigicert.com.my, O=LHDNM, C=MY</ds:X509IssuerName><ds:X509SerialNumber>162880276254639189035871514749820882117</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate></xades:SignedSignatureProperties></xades:SignedProperties>'      
+Expected document digest: 4+FDpm9sM1Bd+8hnagkipH5pKYv9RE403trATvus8gA=
+Computed document digest: 4+FDpm9sM1Bd+8hnagkipH5pKYv9RE403trATvus8gA=
+Document digest match 📄✔️
+✅ Signature is VALID
+--------------------------------------------------
+Parsing XML file: C:\Users\madsl\OneDrive\Documents\xmlsigner\src\main\resources\1.1-Invoice-Sample.xml
+Xades digest expected: Tc9oNX8EuNQohWVDZeaPOHmeBU5tuwVdwIRyfltnTPw=
+Xades digest computed: c9KGIemjHCAkWC1uZhMmw3wOESHvfXfgHFvLJmSNKv0=
+Xades digest mismatch 🔒❌
+b'<xades:SignedProperties xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Id="id-xades-signed-props"><xades:SignedSignatureProperties><xades:SigningTime>2024-07-23T16:31:06Z</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></ds:DigestMethod><ds:DigestValue>KKBSTyiPKGkGl1AFqcPziKCEIDYGtnYUTQN4ukO7G40=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>CN=Trial LHDNM Sub CA V1, OU=Terms of use at http://www.posdigicert.com.my, O=LHDNM, C=MY</ds:X509IssuerName><ds:X509SerialNumber>162880276254639189035871514749820882117</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate></xades:SignedSignatureProperties></xades:SignedProperties>'      
+Expected document digest: fRaWJINS9sB9aSl/MhCjMsdVMFpLwnxstpPhJkJwkU4=
+Computed document digest: fRaWJINS9sB9aSl/MhCjMsdVMFpLwnxstpPhJkJwkU4=
+Document digest match 📄✔️
+✅ Signature is VALID
+--------------------------------------------------
+Parsing XML file: C:\Users\madsl\OneDrive\Documents\xmlsigner\src\main\resources\1.1-Refund-Note-Sample.xml
+Xades digest expected: RbsZFtaov48ipPQzEvLs6fVRxvRqsuo1BlvUOrvq968=
+Xades digest computed: ABIIBhDbTMXauc9UN74DI91V2wsdoMznBA3ro4WfV8Y=
+Xades digest mismatch 🔒❌
+b'<xades:SignedProperties xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Id="id-xades-signed-props"><xades:SignedSignatureProperties><xades:SigningTime>2024-07-23T18:08:30Z</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></ds:DigestMethod><ds:DigestValue>KKBSTyiPKGkGl1AFqcPziKCEIDYGtnYUTQN4ukO7G40=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>CN=Trial LHDNM Sub CA V1, OU=Terms of use at http://www.posdigicert.com.my, O=LHDNM, C=MY</ds:X509IssuerName><ds:X509SerialNumber>162880276254639189035871514749820882117</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate></xades:SignedSignatureProperties></xades:SignedProperties>'      
+Expected document digest: 6Q6fSjk319931dz2CvU5cNW78GBqCTMOXv6PwuLHFY0=
+Computed document digest: 6Q6fSjk319931dz2CvU5cNW78GBqCTMOXv6PwuLHFY0=
+Document digest match 📄✔️
+✅ Signature is VALID
+--------------------------------------------------
+Parsing XML file: C:\Users\madsl\OneDrive\Documents\xmlsigner\src\main\resources\1.1-Self-Billed-Credit-Sample.xml
+Xades digest expected: ZT1stkj+q6Fgrrlr/VwcbUh16dYvqekAyh8Gd4Df23E=
+Xades digest computed: JILx1W6Ki7Ztmg51gxAdtGPIZ9j3kt1/dneccZadbwE=
+Xades digest mismatch 🔒❌
+b'<xades:SignedProperties xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Id="id-xades-signed-props"><xades:SignedSignatureProperties><xades:SigningTime>2024-07-23T18:50:34Z</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></ds:DigestMethod><ds:DigestValue>KKBSTyiPKGkGl1AFqcPziKCEIDYGtnYUTQN4ukO7G40=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>CN=Trial LHDNM Sub CA V1, OU=Terms of use at http://www.posdigicert.com.my, O=LHDNM, C=MY</ds:X509IssuerName><ds:X509SerialNumber>162880276254639189035871514749820882117</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate></xades:SignedSignatureProperties></xades:SignedProperties>'      
+Expected document digest: +u2aaut2YS4yPJTjmhsGPGIzVRGL+p9wt5thWnjqJQ8=
+Computed document digest: +u2aaut2YS4yPJTjmhsGPGIzVRGL+p9wt5thWnjqJQ8=
+Document digest match 📄✔️
+✅ Signature is VALID
+--------------------------------------------------
+Parsing XML file: C:\Users\madsl\OneDrive\Documents\xmlsigner\src\main\resources\1.1-Self-Billed-Debit-Sample.xml
+Xades digest expected: oJFMR/hwRkcJ2rygRaH35bpKcyx/d1S9Mszb8av0aWY=
+Xades digest computed: oqbR89xd4HJeWhEOJPjRvBXO3/HoQoZIN4TdmpR9O44=
+Xades digest mismatch 🔒❌
+b'<xades:SignedProperties xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Id="id-xades-signed-props"><xades:SignedSignatureProperties><xades:SigningTime>2024-07-23T18:55:20Z</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></ds:DigestMethod><ds:DigestValue>KKBSTyiPKGkGl1AFqcPziKCEIDYGtnYUTQN4ukO7G40=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>CN=Trial LHDNM Sub CA V1, OU=Terms of use at http://www.posdigicert.com.my, O=LHDNM, C=MY</ds:X509IssuerName><ds:X509SerialNumber>162880276254639189035871514749820882117</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate></xades:SignedSignatureProperties></xades:SignedProperties>'      
+Expected document digest: zc2mfZLdPL6UXMfIf8miiuKuUpbMc9NKvdRYDHFTDa0=
+Computed document digest: zc2mfZLdPL6UXMfIf8miiuKuUpbMc9NKvdRYDHFTDa0=
+Document digest match 📄✔️
+✅ Signature is VALID
+--------------------------------------------------
+Parsing XML file: C:\Users\madsl\OneDrive\Documents\xmlsigner\src\main\resources\1.1-Self-Billed-Invoice-Sample.xml
+Xades digest expected: dgpDYlwgaRF542ogPTVcdHAQ1q47QgDfd6m+GeCgwfE=
+Xades digest computed: 6KE8puftjMwiydw0VpD8d4ASEYIAqaw9ASGNUsE+c6Q=
+Xades digest mismatch 🔒❌
+b'<xades:SignedProperties xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Id="id-xades-signed-props"><xades:SignedSignatureProperties><xades:SigningTime>2024-07-23T18:42:14Z</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></ds:DigestMethod><ds:DigestValue>KKBSTyiPKGkGl1AFqcPziKCEIDYGtnYUTQN4ukO7G40=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>CN=Trial LHDNM Sub CA V1, OU=Terms of use at http://www.posdigicert.com.my, O=LHDNM, C=MY</ds:X509IssuerName><ds:X509SerialNumber>162880276254639189035871514749820882117</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate></xades:SignedSignatureProperties></xades:SignedProperties>'      
+Expected document digest: 9Ajw/lNpwRWfqdrLeKFePPZJnBXoT9eKzThl1NRflzY=
+Computed document digest: 9Ajw/lNpwRWfqdrLeKFePPZJnBXoT9eKzThl1NRflzY=
+Document digest match 📄✔️
+✅ Signature is VALID
+--------------------------------------------------
+Parsing XML file: C:\Users\madsl\OneDrive\Documents\xmlsigner\src\main\resources\1.1-Self-Billed-Refund-Sample.xml
+Xades digest expected: vB3cA6nIudz3d6l9kmrAlsVeWmrG096p+nVg+HCdOPs=
+Xades digest computed: uWMJVAJOS20H2N29z1kfcennQ07Eb4pI9gesCZcRZik=
+Xades digest mismatch 🔒❌
+b'<xades:SignedProperties xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Id="id-xades-signed-props"><xades:SignedSignatureProperties><xades:SigningTime>2024-07-23T18:59:55Z</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></ds:DigestMethod><ds:DigestValue>KKBSTyiPKGkGl1AFqcPziKCEIDYGtnYUTQN4ukO7G40=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>CN=Trial LHDNM Sub CA V1, OU=Terms of use at http://www.posdigicert.com.my, O=LHDNM, C=MY</ds:X509IssuerName><ds:X509SerialNumber>162880276254639189035871514749820882117</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate></xades:SignedSignatureProperties></xades:SignedProperties>'      
+Expected document digest: RfXFe2Sai6Z1ulzBtpBZhUymlleg1S5FaHfxB+UJuQc=
+Computed document digest: RfXFe2Sai6Z1ulzBtpBZhUymlleg1S5FaHfxB+UJuQc=
+Document digest match 📄✔️
+✅ Signature is VALID
