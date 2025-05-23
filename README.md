@@ -23,7 +23,7 @@ This is a personal project to explore, verify, and sign digital signatures used 
 ## 📁 Project Structure & Implementation Notes
 
 - **java/**: Main implementation for parsing, verifying, and signing e-Invoice XMLs. Most complete and accurate.
-- **python/**: Incomplete; does not calculate the SignedProperties digest correctly.
+- **python/**: Incomplete; does not calculate the xades:SignedProperties digest correctly. Contains quite a few notes about the signature process.
 - **csharp/**: Only calculates the xades:SignedProperties digest for reference/testing.
 - The python and C# code was part of the exploration phase. The java code combines all the learnings into a working implementation.
 
@@ -31,9 +31,8 @@ This is a personal project to explore, verify, and sign digital signatures used 
 
 ## 📚 Resources Used
 
-- Official LHDN documentation (XML schema, signature samples)
+- Official LHDN documentation ([Main signature page](https://sdk.myinvois.hasil.gov.my/signature/), [signature samples](https://sdk.myinvois.hasil.gov.my/sample/), [signature creation details](https://sdk.myinvois.hasil.gov.my/signature-creation/))
 - XML Signature (XMLDSIG) specification
-- Publicly available examples from [https://einvoice.hasil.gov.my](https://einvoice.hasil.gov.my)
 
 ---
 
@@ -43,7 +42,8 @@ This is a personal project to explore, verify, and sign digital signatures used 
 - The order of XML elements and attributes must match exactly as in the sample signatures. (Unverified how strict the API with this)
 - Digest calculation for xades:SignedProperties is especially sensitive as it doesn't follow normal canonicalization procedures, instead relying on internal Microsoft XML serialization implementation.
 - The way the LHDN made the implementation means that essentially no existing tool will correctly validate a signed XML nor will it be able to create a validly signed XML.
-- The signature is calculated not on the full SignedInfo tag data but only on the hash of the document (excluding signature tags), meaning that the SignedProperties is _not_ guaranteed to be unchanged.
+- The signature is calculated not on the full SignedInfo tag data but only on the hash of the document (excluding signature tags), meaning that the SignedProperties could potentially be changed while allowing for the document to still be validated.
+- The MS XML handling was not at all obvious, but the use of Powershell and .net libraries in the [JSON documentation](https://sdk.myinvois.hasil.gov.my/files/Digital_Signature_User_Guide.pdf) gave a clue.
 
 ---
 
@@ -51,7 +51,7 @@ This is a personal project to explore, verify, and sign digital signatures used 
 
 - Python 3.x for generating document digest and verifying signature
 - C# for generating xades:SignedProperties digest
-- Java for full signing and verification implementation
+- Java (1.8 compatible) for full signing and verification implementation
 
 ---
 
