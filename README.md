@@ -1,6 +1,6 @@
-# 🇲🇾 Malaysian e-Invoicing XML Signer & Verifier
+# 🇲🇾 Malaysian Myinvois e-Invoicing XML Signer & Verifier
 
-This is a personal project to explore, verify, and sign digital signatures used in Malaysia’s e-Invoicing system, as described in publicly available documentation from LHDN (Lembaga Hasil Dalam Negeri Malaysia).
+This is a personal project to explore, verify, and sign digital signatures used in Malaysia’s e-Invoicing system, as described in publicly available documentation from LHDNM (Lembaga Hasil Dalam Negeri Malaysia).
 
 > ⚠️ **Disclaimer**  
 > This project is based entirely on **publicly available documentation** provided by LHDN.  
