@@ -1,4 +1,4 @@
-# 🇲🇾 Malaysian e-Invoicing Digest Verifier
+# 🇲🇾 Malaysian e-Invoicing XML Signer & Verifier
 
 This is a personal project to explore, verify, and sign digital signatures used in Malaysia’s e-Invoicing system, as described in publicly available documentation from LHDN (Lembaga Hasil Dalam Negeri Malaysia).
 
