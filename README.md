@@ -91,3 +91,9 @@ python test.py
 cd csharp
 dotnet run
 ```
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
