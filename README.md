@@ -55,7 +55,7 @@ This is a personal project to explore, verify, and sign digital signatures used 
 
 ---
 
-### ☕ Java (Signing & Verifying)
+## ☕ Java (Signing & Verifying)
 
 The Java implementation is inside `java/xmlsignature`. There is no single entrypoint; instead, two files have `main` methods:
 
