@@ -1,1 +1,4 @@
-/target
+java/target
+csharp/bin
+csharp/obj
+.venv

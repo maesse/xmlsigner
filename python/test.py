@@ -1,6 +1,7 @@
-import subprocess
 from lxml import etree
 from copy import deepcopy
+import glob
+import os
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
@@ -8,17 +9,8 @@ from cryptography.hazmat.primitives.asymmetric import (padding, utils)
 import hashlib
 import base64
 
-input_files = [
-    "C:\\Users\\madsl\\OneDrive\\Documents\\xmlsigner\\src\\main\\resources\\1.1-Credit-Note-Sample.xml",
-    "C:\\Users\\madsl\\OneDrive\\Documents\\xmlsigner\\src\\main\\resources\\1.1-Debit-Note-Sample.xml",
-    "C:\\Users\\madsl\\OneDrive\\Documents\\xmlsigner\\src\\main\\resources\\1.1-Invoice-Consolidated-Sample.xml",
-    "C:\\Users\\madsl\\OneDrive\\Documents\\xmlsigner\\src\\main\\resources\\1.1-Invoice-ForeignCurrency-Sample.xml",
-    "C:\\Users\\madsl\\OneDrive\\Documents\\xmlsigner\\src\\main\\resources\\1.1-Invoice-Sample.xml",
-    "C:\\Users\\madsl\\OneDrive\\Documents\\xmlsigner\\src\\main\\resources\\1.1-Refund-Note-Sample.xml",
-    "C:\\Users\\madsl\\OneDrive\\Documents\\xmlsigner\\src\\main\\resources\\1.1-Self-Billed-Credit-Sample.xml",
-    "C:\\Users\\madsl\\OneDrive\\Documents\\xmlsigner\\src\\main\\resources\\1.1-Self-Billed-Debit-Sample.xml",
-    "C:\\Users\\madsl\\OneDrive\\Documents\\xmlsigner\\src\\main\\resources\\1.1-Self-Billed-Invoice-Sample.xml",
-    "C:\\Users\\madsl\\OneDrive\\Documents\\xmlsigner\\src\\main\\resources\\1.1-Self-Billed-Refund-Sample.xml",]
+samples_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../samples"))
+input_files = glob.glob(os.path.join(samples_dir, "*.xml"))
 
 #input_files = ["C:\\Users\\madsl\\OneDrive\\Documents\\xmlsigner\\src\\main\\resources\\xades-detached.xml"]
 #input_file = "C:\\Users\\madsl\\OneDrive\\Documents\\xmlsigner\\src\\main\\resources\\signedprops.xml"
@@ -42,10 +34,7 @@ for input_file in input_files:
     print("Parsing XML file: " + input_file)
     parser = etree.XMLParser(remove_blank_text=True)
     tree = etree.parse(input_file, parser)
-    #etree.cleanup_namespaces(tree)
     root = tree.getroot()
-
-    
 
     #
     # The xades Reference check is supposed to be done like this:
@@ -83,13 +72,18 @@ for input_file in input_files:
     #
     #  * To verify if this is actually how the signature is created, we need to verify the signature against the ds:SignedInfo before the xades:SignedProperties Reference is added
 
-
-    
-
     expectedDocDigest = root.xpath("//ds:Reference/ds:DigestValue", namespaces=namespaces2)[0].text
 
     #xadesReference = root.xpath("//ds:Reference[@Type='http://uri.etsi.org/01903#SignedProperties']", namespaces=namespaces2)[0]
-    reference_xades = root.xpath("//ds:Reference[@URI='#id-xades-signed-props']", namespaces=namespaces2)[0]
+    reference_results = root.xpath("//ds:Reference[@URI='#id-xades-signed-props']", namespaces=namespaces2)
+    if len(reference_results) == 0:
+        print("No xades Reference found")
+        continue
+    elif len(reference_results) > 1:
+        print("Multiple xades References found")
+        continue
+
+    reference_xades = reference_results[0]
 
     expectedXadesDigest = reference_xades.xpath("ds:DigestValue", namespaces=namespaces2)[0].text
     print("Xades digest expected:", expectedXadesDigest)
