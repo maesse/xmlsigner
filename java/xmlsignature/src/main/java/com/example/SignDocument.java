@@ -1,29 +1,33 @@
 package com.example;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.nio.file.*;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.KeyStore;
 import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.Signature;
-import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.time.Instant;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
+import java.util.Enumeration;
 
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.apache.xml.security.Init;
-import org.w3c.dom.*;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.xml.security.Init;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.example.SignHelper.DigestResult;
 
@@ -59,36 +63,34 @@ public class SignDocument {
         System.out.println("Working dir: " + System.getProperty("user.dir"));
 
         // Load a sample
-        Path path = Paths.get("../../samples/1.1-Credit-Note-Sample.xml");
-
+        //Path path = Paths.get("../../samples/1.1-Credit-Note-Sample.xml");
+        Path path = Paths.get("../../samples/lyr-gen-invoice.xml");
         System.out.println("Signing: " + path.getFileName());
-        byte[] fileContents = Files.readAllBytes(path);
-        Document doc = signDocument(fileContents);
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer transformer = tf.newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
-        DOMSource domSource = new DOMSource(doc);
-        //StreamResult result = new StreamResult(System.out);
-        StreamResult result = new StreamResult(new File("../../output/signatureOutput.xml"));
-        transformer.transform(domSource, result);
+        String documentXML = Files.readString(path, StandardCharsets.UTF_8);
+
+        String transformedXML = signDocument(documentXML, "../../cert/myinvois.p12", null, "secret");
+
+        // Save the signed XML to a file
+        Path outputPath = Paths.get("../../output/signatureOutput.xml");
+        Files.write(outputPath, transformedXML.getBytes(StandardCharsets.UTF_8));
     }
 
-    private static String signData(String privateKeyPath, String password, byte[] dataToSign) throws Exception {
+
+    private static KeyStore loadKeystore(String keystorePath, String password) throws Exception {
         char[] pwBytes = password.toCharArray();
-        FileInputStream keyFile = new FileInputStream(privateKeyPath);
+        try (FileInputStream keyFile = new FileInputStream(keystorePath)) {
+            KeyStore keystore = KeyStore.getInstance("PKCS12");
+            keystore.load(keyFile, pwBytes);
+            keyFile.close();
 
-        KeyStore keystore = KeyStore.getInstance("PKCS12");
-        keystore.load(keyFile, pwBytes);
+            return keystore;
+        }
+    }
 
-        String alias = keystore.aliases().nextElement();
-        
-        PrivateKey privateKey = (PrivateKey) keystore.getKey(alias, pwBytes);
-        keyFile.close();
+    private static String signData(KeyStore keystore, String keyAlias, String password, byte[] dataToSign) throws Exception {
+        // Extract the private key from the keystore
+        PrivateKey privateKey = (PrivateKey) keystore.getKey(keyAlias, password.toCharArray());
 
         Signature signer = Signature.getInstance("SHA256withRSA");
         signer.initSign(privateKey);
@@ -99,8 +101,22 @@ public class SignDocument {
         return base64Signature;
     }
 
-    private static Document signDocument(byte[] fileContents) throws Exception
+    public static String signDocument(String documentXML, String keystorePath, String keyAlias, String keystorePassword) throws Exception
     {
+        byte[] fileContents = documentXML.getBytes(StandardCharsets.UTF_8);
+
+        // Load the keystore
+        KeyStore keystore = loadKeystore(keystorePath, keystorePassword);
+
+        // Get the first alias in the keystore if nothing was specified
+        if(keyAlias == null) {
+            Enumeration<String> aliases = keystore.aliases();
+            if(!aliases.hasMoreElements()) {
+                throw new IllegalArgumentException("Keystore is empty, no aliases found");
+            }
+            keyAlias = aliases.nextElement();
+        }
+
         // Parse XML document
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
@@ -132,7 +148,9 @@ public class SignDocument {
         bindings.documentDigestValue.setTextContent(documentDigest.digestValue);
 
         // certificate
-        X509Certificate cert = getPublicKey("../../cert/myinvois.crt");
+
+        
+        X509Certificate cert = (X509Certificate) keystore.getCertificate(keyAlias);
         byte[] publicKeyBytes = cert.getEncoded();
         bindings.x509Certificate.setTextContent(Base64.getEncoder().encodeToString(publicKeyBytes));
         
@@ -146,24 +164,36 @@ public class SignDocument {
         bindings.x509IssuerName.setTextContent(cert.getIssuerDN().getName());
 
         // Signing time
-        bindings.signingTime.setTextContent(DateTimeFormatter.ISO_INSTANT.format(Instant.now()));
+        DateTimeFormatter formatter = DateTimeFormatter
+                .ofPattern("yyyy-MM-dd'T'HH:mm:ssX")
+                .withZone(ZoneOffset.UTC);
+        String formattedTime = formatter.format(Instant.now());
+        bindings.signingTime.setTextContent(formattedTime);
 
         // Sign the document
-        bindings.signatureValue.setTextContent(signData("../../cert/myinvois.p12", "secret", documentDigest.digestSource));
+        String signatureValue = signData(keystore, keyAlias, keystorePassword, documentDigest.digestSource);
+        bindings.signatureValue.setTextContent(signatureValue);
 
+        // Generate the SingedProperties digest and inject it into SignedInfo
         bindings.signedPropsDigestValue.setTextContent(SignHelper.getSignedPropsDigest(bindings.signedProperties, true));
 
-        return doc;
-    }
+        // Transform the document to a string
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
-    private static X509Certificate getPublicKey(String certPath) throws Exception {
-        FileInputStream fis = new FileInputStream(certPath);
-        CertificateFactory cf = CertificateFactory.getInstance("X.509");
-        X509Certificate cert = (X509Certificate) cf.generateCertificate(fis);
-        fis.close();
-        return cert;
-    }
+        DOMSource domSource = new DOMSource(doc);
+        StringWriter writer = new StringWriter();
+        StreamResult result = new StreamResult(writer);
+        transformer.transform(domSource, result);
 
+        // Get the XML string
+        return writer.toString();
+    }
 
     private static ElementBindings buildStructure(Document doc) {
         ElementBindings bindings = new ElementBindings();
