@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.Signature;
+import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -88,6 +89,18 @@ public class SignDocument {
         }
     }
 
+    private static String signData(PrivateKey privateKey, byte[] dataToSign) throws Exception {
+        // Extract the private key from the keystore
+
+        Signature signer = Signature.getInstance("SHA256withRSA");
+        signer.initSign(privateKey);
+        signer.update(dataToSign);
+
+        byte[] signatureBytes = signer.sign();
+        String base64Signature = Base64.getEncoder().encodeToString(signatureBytes);
+        return base64Signature;
+    }
+
     private static String signData(KeyStore keystore, String keyAlias, String password, byte[] dataToSign) throws Exception {
         // Extract the private key from the keystore
         PrivateKey privateKey = (PrivateKey) keystore.getKey(keyAlias, password.toCharArray());
@@ -101,21 +114,9 @@ public class SignDocument {
         return base64Signature;
     }
 
-    public static String signDocument(String documentXML, String keystorePath, String keyAlias, String keystorePassword) throws Exception
+    public static String signDocument(String documentXML, PrivateKey privateKey, byte[] publicKeyBytes) throws Exception
     {
         byte[] fileContents = documentXML.getBytes(StandardCharsets.UTF_8);
-
-        // Load the keystore
-        KeyStore keystore = loadKeystore(keystorePath, keystorePassword);
-
-        // Get the first alias in the keystore if nothing was specified
-        if(keyAlias == null) {
-            Enumeration<String> aliases = keystore.aliases();
-            if(!aliases.hasMoreElements()) {
-                throw new IllegalArgumentException("Keystore is empty, no aliases found");
-            }
-            keyAlias = aliases.nextElement();
-        }
 
         // Parse XML document
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -148,14 +149,15 @@ public class SignDocument {
         bindings.documentDigestValue.setTextContent(documentDigest.digestValue);
 
         // certificate
-
-        
-        X509Certificate cert = (X509Certificate) keystore.getCertificate(keyAlias);
-        byte[] publicKeyBytes = cert.getEncoded();
         bindings.x509Certificate.setTextContent(Base64.getEncoder().encodeToString(publicKeyBytes));
         
         // Hashed certificate key
         bindings.certDigestValue.setTextContent(SignHelper.sha256Base64(publicKeyBytes));
+
+        // Load certificate from bytes
+        CertificateFactory cf = CertificateFactory.getInstance("X.509");
+        ByteArrayInputStream bis = new ByteArrayInputStream(publicKeyBytes);
+        X509Certificate cert = (X509Certificate) cf.generateCertificate(bis);
 
         // Public key serial number
         bindings.x509SerialNumber.setTextContent("" + cert.getSerialNumber());
@@ -171,7 +173,7 @@ public class SignDocument {
         bindings.signingTime.setTextContent(formattedTime);
 
         // Sign the document
-        String signatureValue = signData(keystore, keyAlias, keystorePassword, documentDigest.digestSource);
+        String signatureValue = signData(privateKey, documentDigest.digestSource);
         bindings.signatureValue.setTextContent(signatureValue);
 
         // Generate the SingedProperties digest and inject it into SignedInfo
@@ -193,6 +195,28 @@ public class SignDocument {
 
         // Get the XML string
         return writer.toString();
+    }
+
+    public static String signDocument(String documentXML, String keystorePath, String keyAlias, String keystorePassword) throws Exception
+    {
+        // Load the keystore
+        KeyStore keystore = loadKeystore(keystorePath, keystorePassword);
+
+        // Get the first alias in the keystore if nothing was specified
+        if(keyAlias == null) {
+            Enumeration<String> aliases = keystore.aliases();
+            if(!aliases.hasMoreElements()) {
+                throw new IllegalArgumentException("Keystore is empty, no aliases found");
+            }
+            keyAlias = aliases.nextElement();
+        }
+
+        X509Certificate cert = (X509Certificate) keystore.getCertificate(keyAlias);
+        byte[] publicKeyBytes = cert.getEncoded();
+
+        PrivateKey privateKey = (PrivateKey) keystore.getKey(keyAlias, keystorePassword.toCharArray());
+
+        return signDocument(documentXML, privateKey, publicKeyBytes);
     }
 
     private static ElementBindings buildStructure(Document doc) {
